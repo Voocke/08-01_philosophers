@@ -8,7 +8,7 @@ fun main() {
     val thinkers: List<Thinker> = List(n) {Thinker(Status.WAIT)}
 
     repeat(n) {
-            chooseFork(getRandThinker(n,thinkers),forks,thinkers)
+            chooseFork(getRandThinker(thinkers),forks,thinkers)
     }
 
     var thinkNum = 0
@@ -23,14 +23,9 @@ fun main() {
     println("Кол-во философов которые едят: $eatNum \nКол-во философов которые думают: $thinkNum")
 }
 
-fun getRandThinker(n: Int, thinkers:List<Thinker> ): Int {
-    var currThinker: Int
-    while (true){
-        currThinker = Random.nextInt(0,n)
-        if (thinkers[currThinker].status == Status.WAIT)
-            break
-    }
-    return currThinker
+fun getRandThinker(thinkers:List<Thinker> ): Int {
+    val waitingThinkers = thinkers.indices.filter { thinkers[it].status == Status.WAIT }
+    return waitingThinkers.random()
 }
 
 fun chooseFork(i: Int, forks:MutableList<Boolean>, thinkers:List<Thinker>) {
